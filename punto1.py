@@ -99,12 +99,12 @@ print(f"Método Newton-Raphson:    t = {t_newt:.6f} años, Error = {err_newt:.2e
 plt.figure(figsize=(10, 6))
 plt.plot(biseccion_iter, 'o-', label="Bisección")
 plt.plot(secante_iter, 's--', label="Secante")
-plt.plot(newton_iter, 'x-.', label="Newton-Raphson")
-plt.axhline(t_bis, color='gray', linestyle='--', linewidth=0.5, label="Raíz estimada")
+# plt.plot(newton_iter, 'x-.', label="Newton-Raphson")
+plt.axhline(t_sec, color='gray', linewidth=0.5, label="Raíz estimada")
 plt.title("Convergencia de los métodos numéricos")
 plt.xlabel("Iteraciones")
 plt.ylabel("Valor de t (años)")
 plt.grid(True)
 plt.legend()
 plt.tight_layout()
-plt.savefig("grafica_biseccion.png")  # Guarda la gráfica como imagen
+plt.savefig("grafica_secante.png")  # Guarda la gráfica como imagen
