@@ -6,15 +6,16 @@ X = 3_000_000
 Q = 50000
 r = 0.08
 A_target = 15_000_000
-tol = 1e-6  # Tolerancia
+tol = 0.0001  # Tolerancia
+e = np
 
 # Función f(t)
 def f(t):
-    return X * np.exp(r * t) + (Q / r) * (np.exp(r * t) - 1) - A_target
+    return X * e.exp(r * t) + (Q / r) * (e.exp(r * t) - 1) - A_target
 
 # Derivada de f(t) para Newton-Raphson
 def f_prime(t):
-    return X * r * np.exp(r * t) + Q * np.exp(r * t)
+    return X * r * e.exp(r * t) + Q * e.exp(r * t)
 
 # Gráfica de la función
 t_vals = np.linspace(0, 30, 300)
@@ -40,10 +41,11 @@ for i in range(len(t_vals) - 1):
 
 print(f"\nIntervalo con cambio de signo: t = {a:.4f} a {b:.4f}")
 
-# Método de Bisección
-def biseccion(f, a, b, tol=1e-6, max_iter=100):
+# Bisección
+def biseccion(a, b, tol=1e-6, max_iter=100):
     for _ in range(max_iter):
         c = (a + b) / 2
+        biseccion_iter.append(c)
         if abs(f(c)) < tol or (b - a) / 2 < tol:
             return c, abs(f(c))
         if f(a) * f(c) < 0:
@@ -52,36 +54,57 @@ def biseccion(f, a, b, tol=1e-6, max_iter=100):
             a = c
     return c, abs(f(c))
 
-# Método de la Secante
-def secante(f, x0, x1, tol=1e-6, max_iter=100):
+# Secante
+def secante(x0, x1, tol=1e-6, max_iter=100):
     for _ in range(max_iter):
         f0, f1 = f(x0), f(x1)
         if f1 - f0 == 0:
             break
         x2 = x1 - f1 * (x1 - x0) / (f1 - f0)
+        secante_iter.append(x2)
         if abs(f(x2)) < tol:
             return x2, abs(f(x2))
         x0, x1 = x1, x2
     return x2, abs(f(x2))
 
-# Método de Newton-Raphson
-def newton(f, df, x0, tol=1e-6, max_iter=100):
+# Newton-Raphson
+def newton(df, x0, tol=1e-6, max_iter=100):
     for _ in range(max_iter):
         fx, dfx = f(x0), df(x0)
         if dfx == 0:
             break
         x1 = x0 - fx / dfx
+        newton_iter.append(x1)
         if abs(f(x1)) < tol:
             return x1, abs(f(x1))
         x0 = x1
     return x1, abs(f(x1))
 
+# Guardar iteraciones para graficar
+biseccion_iter = []
+secante_iter = []
+newton_iter = []
+
 # Ejecutar métodos
-t_bis, err_bis = biseccion(f, a, b, tol)
-t_sec, err_sec = secante(f, a, b, tol)
-t_newt, err_newt = newton(f, f_prime, (a + b) / 2, tol)
+t_bis, err_bis = biseccion( a, b, tol)
+t_sec, err_sec = secante( a, b, tol)
+t_newt, err_newt = newton( f_prime, (a + b) / 2, tol)
 
 # Resultados
 print(f"\nMétodo de Bisección:      t = {t_bis:.6f} años, Error = {err_bis:.2e}")
 print(f"Método de la Secante:     t = {t_sec:.6f} años, Error = {err_sec:.2e}")
 print(f"Método Newton-Raphson:    t = {t_newt:.6f} años, Error = {err_newt:.2e}")
+
+# Gráficas de convergencia
+plt.figure(figsize=(10, 6))
+plt.plot(biseccion_iter, 'o-', label="Bisección")
+plt.plot(secante_iter, 's--', label="Secante")
+plt.plot(newton_iter, 'x-.', label="Newton-Raphson")
+plt.axhline(t_bis, color='gray', linestyle='--', linewidth=0.5, label="Raíz estimada")
+plt.title("Convergencia de los métodos numéricos")
+plt.xlabel("Iteraciones")
+plt.ylabel("Valor de t (años)")
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+plt.savefig("grafica_biseccion.png")  # Guarda la gráfica como imagen
