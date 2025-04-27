@@ -29,7 +29,7 @@ plt.ylabel("f(t)")
 plt.title("Gráfica de f(t) = A(t) - 15,000,000")
 plt.grid(True)
 plt.legend()
-plt.savefig("grafica_ft.png")  # Guarda la gráfica como imagen
+plt.savefig("graficas/grafica_ft.png")  # Guarda la gráfica como imagen
 
 # Buscar intervalo con cambio de signo para Bisección y Secante
 a, b = None, None
@@ -105,7 +105,7 @@ plt.ylabel("Valor de t (años)")
 plt.grid(True)
 plt.legend()
 plt.tight_layout()
-plt.savefig("grafica_biseccion.png")  # Guarda la gráfica como imagen
+plt.savefig("graficas/grafica_biseccion.png")  # Guarda la gráfica como imagen
 
 # Gráficas de convergencia secante
 plt.figure(figsize=(10, 6))
@@ -118,7 +118,7 @@ plt.ylabel("Valor de t (años)")
 plt.grid(True)
 plt.legend()
 plt.tight_layout()
-plt.savefig("grafica_secante.png")  # Guarda la gráfica como imagen
+plt.savefig("graficas/grafica_secante.png")  # Guarda la gráfica como imagen
 
 # Gráficas de convergencia Newton
 plt.figure(figsize=(10, 6))
@@ -131,4 +131,4 @@ plt.ylabel("Valor de t (años)")
 plt.grid(True)
 plt.legend()
 plt.tight_layout()
-plt.savefig("grafica_newton.png")  # Guarda la gráfica como imagen
+plt.savefig("graficas/grafica_newton.png")  # Guarda la gráfica como imagen
